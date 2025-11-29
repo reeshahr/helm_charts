@@ -1,24 +1,18 @@
-name: Release Helm Chart
-
 on:
   push:
     branches:
       - main
-    paths:
-      - 'charts/**'        # or 'chart/**' if you keep that name
   workflow_dispatch:
-
 jobs:
   release:
     permissions:
-      contents: write    # needed to push to gh-pages and create releases
+      contents: write
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # important so chart-releaser sees tags/history
+          fetch-depth: 0
 
       - name: Configure Git
         run: |
@@ -28,6 +22,6 @@ jobs:
       - name: Run chart-releaser
         uses: helm/chart-releaser-action@v1.6.0
         with:
-          charts_dir: charts   # or 'chart' if you didn't rename
+          charts_dir: helm-charts
         env:
           CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
